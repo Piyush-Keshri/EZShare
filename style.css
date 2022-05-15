@@ -1,6 +1,7 @@
 :root{
     --main-bg-color: #eff5fe ;
     --border-color: #0288d147;
+    --container-width: 500px;
 }
 
 body,html{
@@ -10,29 +11,42 @@ body,html{
     padding: 0%;
     margin: 0;
 }
-body,.drop-zone{
+
+body,
+.drop-zone,
+.upload-container{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
 .upload-container{
     background:#ffffff ;
     border-radius: 25px;
     box-shadow: 0 20px 20px #0000003e;
 }
+
 .drop-zone{
-    width: 500px;
+    width: var(--container-width);
     height: 200px;
     border: 2px dashed var(--border-color);
     margin: 30px;
     border-radius: 10px;
+    transition: all .2s ease-in-out;
 }
+
+.dragged.drop-zone{
+    background: var(--main-bg-color);
+    border-color:#2196f3 ;
+}
+
 .icon-container{
     width: 75px;
     height: 100px;
     position: relative;
 }
+
 .icon-container img{
     width: 75px;
     position: absolute;
@@ -57,4 +71,39 @@ body,.drop-zone{
 }
 .dragged .icon-container .center{
     transform: translateY(-5px);
+}
+
+#file-input{
+    display: none;
+}
+
+.browse-btn{
+    color: #2196f3;
+    cursor: pointer;
+}
+
+.progress-container{
+    width: var(--container-width);
+    height: 40px;
+    border: 2px solid var(--main-bg-color);
+    margin-bottom: 25px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.progress-container .bg-progress{
+    background:var(--main-bg-color) ;
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    /* transform: scaleX(0); */
+    transform-origin: left;
+    transition: width .25s linear;
+    position: absolute;
+}
+
+.progress-container .inner-container{
+    position: absolute;
+    z-index: 1;
+    margin-left: 5px;
 }
