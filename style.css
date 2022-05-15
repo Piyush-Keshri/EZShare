@@ -84,11 +84,12 @@ body,
 
 .progress-container{
     width: var(--container-width);
-    height: 40px;
+    height: 55px;
     border: 2px solid var(--main-bg-color);
     margin-bottom: 25px;
     border-radius: 10px;
     position: relative;
+    display: none;
 }
 
 .progress-container .bg-progress{
@@ -97,7 +98,7 @@ body,
     width: 0%;
     border-radius: 3px;
     /* transform: scaleX(0); */
-    transform-origin: left;
+   
     transition: width .25s linear;
     position: absolute;
 }
@@ -106,4 +107,19 @@ body,
     position: absolute;
     z-index: 1;
     margin-left: 5px;
+    width: 100%;
+}
+.percent-container{
+    font-size: 13px;
+    margin: 2px;
+    opacity: 0.8;
+}
+
+.progress-bar{
+    height:3px ;
+    width: 98%; 
+    background: #03a9f4;
+    border-radius: 2px;
+    transform-origin: left;
+    transition:transform 0.25s linear ;
 }
