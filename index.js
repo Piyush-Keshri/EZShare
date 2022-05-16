@@ -13,9 +13,13 @@ const copyBtn = document.querySelector("#copy-btn");
 
 const emailForm = document.querySelector("#email-form");
 
+const toast = document.querySelector(".toast");
+
 const host = "https://innshare.herokuapp.com/";
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send`;
+
+const maxAllowedSize = 100 * 1024 * 1024;
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
@@ -49,11 +53,25 @@ browseBtn.addEventListener("click", () => {
 copyBtn.addEventListener("click", () => {
   fileURLInput.select();
   document.execCommand("copy");
+  showToast("Link Copied");
 });
 
 const uploadFile = () => {
-  progressContainer.style.display = "block";
+  if (fileInput.files.length > 1) {
+    fileInput.value = "";
+    showToast("Only Upload One File");
+    return;
+  }
   const file = fileInput.files[0];
+
+  if (file.size > maxAllowedSize) {
+    showToast("Cant Upload More than 100MB");
+    fileInput.value = "";
+    return;
+  }
+
+  progressContainer.style.display = "block";
+
   const formData = new FormData();
   formData.append("myfile", file);
   const xhr = new XMLHttpRequest();
@@ -65,6 +83,10 @@ const uploadFile = () => {
   };
 
   xhr.upload.onprogress = updateProgress;
+  xhr.upload.onerror = () => {
+    fileInput.value = "";
+    showToast(`Error in Upload:${xhr.statusText} `);
+  };
 
   xhr.open("POST", uploadURL);
   xhr.send(formData);
@@ -94,6 +116,7 @@ emailForm.addEventListener("submit", () => {
     emailTo: emailForm.elements["to-email"].value,
     emailFrom: emailForm.elements["from-email"].value,
   };
+
   emailForm[2].setAttribute("disabled", "true");
   fetch(emailURL, {
     method: "POST",
@@ -106,6 +129,18 @@ emailForm.addEventListener("submit", () => {
     .then(({ success }) => {
       if (success) {
         sharingContainer.style.display = "none";
+        showToast("Email Sent");
       }
     });
 });
+
+let toastTimer;
+const showToast = (msg) => {
+  toast.innerText = msg;
+  toast.style.transform = "translate(-50%,0)";
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.style.transform = "translate(-50%,60px)";
+  }, 2000);
+};
