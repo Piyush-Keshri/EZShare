@@ -27,7 +27,30 @@
                 <div class="progress-bar"></div>
             </div>
         </div>
+        <div class="sharing-container">
+            <p class="expire">Link Expires in 24 hrs</p>
+            <div class="input-container">
+                <input type="text" id="fileURL" readonly>
+                <img src="copy-icon.svg" alt="copy-icon" id="copy-btn">
+            </div>
+            <p>Or Send via Email</p>
+            <div class="email-container">
+              <form id="email-form">
+                  <div class="field">
+                    <label for="sender">Your Email</label>
+                    <input type="email" required name="from-email" id="sender">
+                  </div>
+                  <div class="field">
+                    <label for="reciever">Reciever's Email</label>
+                    <input type="email" required name="to-email" id="reciever">
+                  </div>
+                  <button type="submit">Send</button>
+
+              </form>
+            </div>
+        </div>
     </section>
+    <div class="toast">alert</div>
     <script src="index.js"></script>
 </body>
 </html>
